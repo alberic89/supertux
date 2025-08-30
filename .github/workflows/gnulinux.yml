@@ -51,8 +51,10 @@ jobs:
 
     steps:
       - name: Disable sudo
-        run: alias sudo=' '
-        
+        run: |
+          shopt -s expand_aliases
+          alias sudo=' '
+
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
         run: |
