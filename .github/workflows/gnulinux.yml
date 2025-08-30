@@ -179,9 +179,7 @@ jobs:
           #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
           git config --global --add safe.directory /__w/supertux/supertux
-          pwd
-          ls -ap
-          GIT_TAG=$(git describe --tags --abbrev=0)
+          GIT_TAG=$(git describe --tags --abbrev=0 || echo "")
 
           echo "Git information:"
           echo "- GIT_TAG: $GIT_TAG"
