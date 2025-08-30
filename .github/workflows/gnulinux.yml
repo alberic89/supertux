@@ -162,7 +162,7 @@ jobs:
         uses: eltimn/slugify-action@v2.0.2
 
       - name: Configure build
-        shell: pwsh
+        shell: bash
         env:
           # Using git rev-parse gives incorrect values when querying the branch
           # so, use slugify instead
@@ -174,36 +174,51 @@ jobs:
           GLBINDING: ${{ matrix.glbinding }}
           #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
-          $Env:GIT_TAG = (& git describe --tags --abbrev=0)
+          GIT_TAG=$(git describe --tags --abbrev=0)
 
           echo "Git information:"
-          echo "- GIT_TAG: $Env:GIT_TAG"
-          echo "- GIT_HASH: $Env:GIT_HASH"
-          echo "- GIT_BRANCH: $Env:GIT_BRANCH"
+          echo "- GIT_TAG: $GIT_TAG"
+          echo "- GIT_HASH: $GIT_HASH"
+          echo "- GIT_BRANCH: $GIT_BRANCH"
 
-          & cmake --version
-          & $Env:CXX --version
+          cmake --version
+          $CXX --version
 
-          mkdir "build"
-          cd "build"
+          mkdir -p build
+          cd build
+          
+          CMAKE_ARGS=(
+            -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
+            -DENABLE_DISCORD=ON
+            -DCMAKE_INSTALL_MESSAGE=NEVER
+            -DCMAKE_INSTALL_PREFIX=/usr
+            -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
+            -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)"
+            -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"
+            -DBUILD_TESTING=OFF
+          )
+
 
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs on 32bit
-          & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
-                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
-                     -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
-                     -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
-                     -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
-                     $(if ($Env:32BIT -eq "true") {
-                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
-                       "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                       "-DVCPKG_MANIFEST_MODE=OFF "
-                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
-                     }) `
-                     -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
-                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
-                     -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
-                     -DBUILD_TESTING=OFF
+          if [ "$32BIT" = "true" ]; then
+            CMAKE_ARGS+=(
+              -DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+              -DVCPKG_TARGET_TRIPLET=x86-linux
+              -DVCPKG_MANIFEST_MODE=OFF
+              -DPhysFS_PREFER_FIND_PACKAGE=ON
+              -DCMAKE_CXX_FLAGS="-m32"
+              -DCMAKE_C_FLAGS="-m32"
+            )
+          fi
+
+          if [ "$MAKE_DOCS" = "true" ]; then
+            CMAKE_ARGS+=(-DBUILD_DOCUMENTATION=ON)
+          else
+            CMAKE_ARGS+=(-DBUILD_DOCUMENTATION=OFF)
+          fi
+
+          cmake .. "${CMAKE_ARGS[@]}"
 
       - name: Build and install
         working-directory: build
