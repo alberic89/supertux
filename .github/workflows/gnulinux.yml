@@ -37,7 +37,7 @@ jobs:
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         include:
-          - os: ubuntu-latest
+          - os: "ubuntu:20.04"
             build_type: Release
             compiler: gcc
             arch: 64
@@ -48,18 +48,14 @@ jobs:
 
     runs-on: ubuntu-latest
     container: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # Fetch the whole tree so git describe works
-          fetch-depth: 0
-          submodules: recursive
 
+    steps:
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
         run: |
           sudo apt-get update
           sudo apt-get install -y \
+            git \
             cmake \
             ninja-build \
             build-essential \
@@ -99,6 +95,7 @@ jobs:
           sudo apt-get update
 
           sudo apt-get install -y \
+            git \
             cmake \
             ninja-build \
             build-essential \
@@ -132,6 +129,12 @@ jobs:
           vcpkg install --triplet x86-linux physfs glew libraqm
 
           popd
+      
+      - uses: actions/checkout@v4
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: recursive
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
