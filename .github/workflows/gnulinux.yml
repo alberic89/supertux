@@ -139,7 +139,7 @@ jobs:
           chmod +x bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh
           
           # These libraries don't exist for 32-bit in Ubuntu repositories.
-          vcpkg install --triplet x86-linux physfs glew libraqm
+          ./vcpkg install --triplet x86-linux physfs glew libraqm
 
           popd
       
