@@ -48,6 +48,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container: ${{ matrix.os }}
+    shell: bash
 
     steps:
 
@@ -55,7 +56,7 @@ jobs:
         if: ${{ matrix.arch == 64 }}
         run: |
           apt-get update
-          apt-get install -y \
+          DEBIAN_FRONTEND="noninteractive" apt-get install -y \
             git \
             cmake \
             ninja-build \
@@ -95,7 +96,7 @@ jobs:
           dpkg --add-architecture i386
           apt-get update
 
-          apt-get install -y \
+          DEBIAN_FRONTEND="noninteractive" apt-get install -y \
             git \
             cmake \
             ninja-build \
