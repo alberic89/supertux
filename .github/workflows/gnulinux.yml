@@ -60,7 +60,7 @@ jobs:
           apt-get update
           DEBIAN_FRONTEND="noninteractive" apt-get install -y \
             git \
-            cmake \
+            python3-pip \
             ninja-build \
             build-essential \
             automake \
@@ -92,6 +92,8 @@ jobs:
             lcov \
             doxygen
 
+          pip install cmake --upgrade
+
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
         run: |
@@ -100,7 +102,7 @@ jobs:
 
           DEBIAN_FRONTEND="noninteractive" apt-get install -y \
             git \
-            cmake \
+            python3-pip \
             ninja-build \
             build-essential \
             automake \
@@ -127,6 +129,8 @@ jobs:
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
             libglm-dev
+            
+          pip install cmake --upgrade
 
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can
