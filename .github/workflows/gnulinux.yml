@@ -110,6 +110,10 @@ jobs:
             rename \
             sshpass \
             clang \
+            curl \
+            zip \
+            unzip \
+            tar \
             gcc-multilib \
             g++-multilib \
             libglu1-mesa-dev:i386 \
@@ -174,6 +178,7 @@ jobs:
           GLBINDING: ${{ matrix.glbinding }}
           #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
+          git config --global --add safe.directory /__w/supertux/supertux
           GIT_TAG=$(git describe --tags --abbrev=0)
 
           echo "Git information:"
