@@ -33,7 +33,7 @@ jobs:
         # TODO Working Linux 32-bit packaging
         # TODO CTest & coverage workflow implement
         arch: [32, 64]
-        os: [ubuntu-latest]
+        os: ["ubuntu:20.04"]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         include:
@@ -46,7 +46,8 @@ jobs:
             documentation: true
             coverage: ON
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    container: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
