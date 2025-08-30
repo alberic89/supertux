@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 shopt -s nullglob
+if ! type sudo &> /dev/null;then
+    alias sudo=' '
+fi
 
 if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-13" ]) && [ "$PACKAGE" = "ON" ]; then
     sudo chmod -R +w /usr/local/Cellar

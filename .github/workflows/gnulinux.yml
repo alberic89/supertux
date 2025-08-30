@@ -50,16 +50,12 @@ jobs:
     container: ${{ matrix.os }}
 
     steps:
-      - name: Disable sudo
-        run: |
-          shopt -s expand_aliases
-          alias sudo=' '
 
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          apt-get update
+          apt-get install -y \
             git \
             cmake \
             ninja-build \
@@ -96,10 +92,10 @@ jobs:
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
         run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
+          dpkg --add-architecture i386
+          apt-get update
 
-          sudo apt-get install -y \
+          apt-get install -y \
             git \
             cmake \
             ninja-build \
