@@ -27,6 +27,9 @@ on:
 
 jobs:
   gnulinux:
+    defaults:
+          run:
+            shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -48,7 +51,6 @@ jobs:
 
     runs-on: ubuntu-latest
     container: ${{ matrix.os }}
-    shell: bash
 
     steps:
 
