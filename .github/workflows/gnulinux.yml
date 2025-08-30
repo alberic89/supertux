@@ -129,6 +129,11 @@ jobs:
           # be used via the system package manager.
           pushd /
 
+          # Get vcpkg
+          cd /opt/
+          git clone https://github.com/microsoft/vcpkg.git --depth=1 && cd vcpkg
+          chmod +x bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh
+          
           # These libraries don't exist for 32-bit in Ubuntu repositories.
           vcpkg install --triplet x86-linux physfs glew libraqm
 
