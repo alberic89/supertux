@@ -180,8 +180,7 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/supertux/supertux
           pwd
-          ls
-          tree
+          ls -ap
           GIT_TAG=$(git describe --tags --abbrev=0)
 
           echo "Git information:"
