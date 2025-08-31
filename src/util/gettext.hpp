@@ -59,7 +59,7 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 #if defined(FMT_VERSION) && FMT_VERSION >= 80000
     #define FORMAT_RUNTIME(str, ...) fmt::format(fmt::runtime(str), __VA_ARGS__)
 #else
-    #define FORMAT_RUNTIME(str, ...) fmt::vformat(str, fmt::make_format_args(__VA_ARGS__))
+    #define FORMAT_RUNTIME(str, ...) fmt::vformat(fmt::basic_string_view(str), fmt::make_format_args(__VA_ARGS__))
 #endif
 
 static inline std::string _(const std::string& message)
