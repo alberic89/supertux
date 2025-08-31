@@ -61,7 +61,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   {
     for (int id = 1; id < m_input_manager.get_num_users(); id++)
     {
-      add_entry(fmt::format(fmt::runtime(_("Player {}")), std::to_string(id + 1)),
+      add_entry(FORMAT_RUNTIME(_("Player {}"), std::to_string(id + 1)),
       [&input_manager, id] {
         MenuManager::instance().push_menu(std::make_unique<KeyboardMenu>(input_manager, id));
       });

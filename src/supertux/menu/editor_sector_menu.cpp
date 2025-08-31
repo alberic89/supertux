@@ -31,7 +31,7 @@ EditorSectorMenu::EditorSectorMenu() :
   new_size(size),
   offset(0, 0)
 {
-  add_label(fmt::format(fmt::runtime(_("Sector {}")), sector->get_name()));
+  add_label(FORMAT_RUNTIME(_("Sector {}"), sector->get_name()));
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
   add_script(_("Initialization script"), &sector->m_init_script);

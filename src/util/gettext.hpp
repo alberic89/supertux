@@ -37,8 +37,8 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
  *     std::cout << _("Hello ") << name << _("!");
  * Good:
  *     #include <fmt/format.h>
- *     std::string greeting = fmt::format(fmt::runtime(_("Hello {}!")), name);
- *     std::cout << fmt::format(fmt::runtime(_("Hello {}!")), name);
+ *     std::string greeting = FORMAT_RUNTIME(_("Hello {}!"), name);
+ *     std::cout << FORMAT_RUNTIME(_("Hello {}!"), name);
  *
  * If you need singular and plural forms use __ instead of _ and fmt::format
  * if necessary.
@@ -49,10 +49,19 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
  *     std::cout << _("You collected ") << num << _(" coins");
  * Good:
  *     #include <fmt/format.h>
- *     std::cout << fmt::format(fmt::runtime(__("You collected {} coin",
- *                                              "You collected {} coins", num)),
- *                              num));
+ *     std::cout << FORMAT_RUNTIME(__("You collected {} coin",
+ *                                    "You collected {} coins", num),
+ *                              num);
  */
+
+#include <fmt/base.h>
+#include <fmt/format.h>
+
+#if defined(FMT_VERSION) && FMT_VERSION >= 80000
+    #define FORMAT_RUNTIME(str, ...) fmt::format(fmt::runtime(str), __VA_ARGS__)
+#else
+    #define FORMAT_RUNTIME(str, ...) fmt::vformat(str, fmt::make_format_args(__VA_ARGS__))
+#endif
 
 static inline std::string _(const std::string& message)
 {

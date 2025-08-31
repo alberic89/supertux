@@ -84,7 +84,7 @@ AddonPreviewMenu::rebuild_menu()
 
   clear();
 
-  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
+  add_label(FORMAT_RUNTIME(_("{} \"{}\""), type, m_addon.get_title()));
   add_hl();
 
   if (info_unavailable)
@@ -94,9 +94,9 @@ AddonPreviewMenu::rebuild_menu()
     add_hl();
   }
 
-  add_inactive(author.empty() ? _("No author specified.") : fmt::format(fmt::runtime(_("Author: {}")), author), !author.empty());
-  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type), true);
-  add_inactive(license.empty() ? _("No license specified.") : fmt::format(fmt::runtime(_("License: {}")), license), !license.empty());
+  add_inactive(author.empty() ? _("No author specified.") : FORMAT_RUNTIME(_("Author: {}"), author), !author.empty());
+  add_inactive(FORMAT_RUNTIME(_("Type: {}"), type), true);
+  add_inactive(license.empty() ? _("No license specified.") : FORMAT_RUNTIME(_("License: {}"), license), !license.empty());
   add_inactive("");
 
   if (!dependencies.empty())
@@ -108,14 +108,14 @@ AddonPreviewMenu::rebuild_menu()
       try
       {
         const Addon& dependency = m_addon_manager.get_repository_addon(id);
-        text = fmt::format(fmt::runtime("\"{}\" ({}): {}"), dependency.get_title(),
+        text = FORMAT_RUNTIME("\"{}\" ({}): {}", dependency.get_title(),
                             addon_string_util::addon_type_to_translated_string(dependency.get_type()),
                             m_addon_manager.is_addon_installed(id) ? _("Installed") : _("Not installed"));
       }
       catch (std::exception& err)
       {
         log_warning << "Dependency not available in repository: " << err.what() << std::endl;
-        text = fmt::format(fmt::runtime("\"{}\": {}"), id, _("Not available!"));
+        text = FORMAT_RUNTIME("\"{}\": {}", id, _("Not available!"));
       }
       add_inactive(text, true);
     }
@@ -223,7 +223,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
 
     case MNID_UNINSTALL:
     {
-      std::string confirmation_message = fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?")), m_addon.get_title());
+      std::string confirmation_message = FORMAT_RUNTIME(_("Are you sure you want to uninstall \"{}\"?"), m_addon.get_title());
       if (m_addon.is_levelset()) confirmation_message += _("\nYour progress won't be lost.");
 
       Dialog::show_confirmation(confirmation_message, [this]()
@@ -236,7 +236,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
         else
         {
           // Other add-ons depend on the add-on that's being uninstalled.
-          const std::string dependency_message = fmt::format(fmt::runtime(_("NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\nAre you sure you wish to uninstall?")),
+          const std::string dependency_message = FORMAT_RUNTIME(_("NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\nAre you sure you wish to uninstall?"),
               m_addon.get_title(), depending_addons.size(), addon_string_util::get_addon_plural_form(depending_addons.size()));
           Dialog::show_confirmation(dependency_message, [this]()
           {
@@ -255,7 +255,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
       }
       catch (std::exception& err)
       {
-        Dialog::show_message(fmt::format(fmt::runtime(_("Cannot toggle add-on \"{}\":\n{}")), m_addon.get_id(), err.what()));
+        Dialog::show_message(FORMAT_RUNTIME(_("Cannot toggle add-on \"{}\":\n{}"), m_addon.get_id(), err.what()));
         m_addon_enabled = !m_addon_enabled;
       }
       break;
@@ -311,7 +311,7 @@ AddonPreviewMenu::install_addon()
   auto dialog = std::make_unique<DownloadDialog>(status, false);
   const std::string action = m_update ? _("Updating") : _("Downloading");
   const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
-  dialog->set_title(fmt::format(fmt::runtime("{} {}"), action, addon_string_util::generate_menu_item_text(repository_addon)));
+  dialog->set_title(FORMAT_RUNTIME("{} {}", action, addon_string_util::generate_menu_item_text(repository_addon)));
   status->then([this, addon_id](bool success)
   {
     if (m_auto_install)
@@ -342,7 +342,7 @@ AddonPreviewMenu::uninstall_addon()
   catch (std::exception& err)
   {
     log_warning << "Error uninstalling add-on: " << err.what() << std::endl;
-    Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling add-on:\n{}")), err.what()));
+    Dialog::show_message(FORMAT_RUNTIME(_("Error uninstalling add-on:\n{}"), err.what()));
   }
   MenuManager::instance().pop_menu(true);
   MenuManager::instance().current_menu()->refresh();

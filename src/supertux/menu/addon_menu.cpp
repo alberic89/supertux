@@ -149,7 +149,7 @@ AddonMenu::rebuild_menu()
     }
     else
     {
-      add_inactive(fmt::format(fmt::runtime(_("{} {} available")), addon_updates_count, addon_updates_count == 1 ? _("update") : _("updates")));
+      add_inactive(FORMAT_RUNTIME(_("{} {} available"), addon_updates_count, addon_updates_count == 1 ? _("update") : _("updates")));
     }
     add_entry(MNID_CHECK_ONLINE, _("Check for updates"));
     add_hl();

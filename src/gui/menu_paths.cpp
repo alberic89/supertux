@@ -53,7 +53,7 @@ auto on_select = [](const std::string& path, PathObject& target, const std::stri
 
 PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
 {
-  add_label(fmt::format(fmt::runtime(_("Path {}")), path_ref));
+  add_label(FORMAT_RUNTIME(_("Path {}"), path_ref));
   add_hl();
 
   const auto paths = Editor::current()->get_sector()->get_objects_by_type<PathGameObject>();

@@ -95,7 +95,7 @@ ObjectMenu::menu_action(MenuItem& item)
       for (int version = m_object->get_version() + 1;
            version <= 1 + static_cast<int>(patches.size()); version++)
       {
-        text += fmt::format(fmt::runtime(_("Patch notes for v{}:")), version) + "\n" + patches[version - 2];
+        text += FORMAT_RUNTIME(_("Patch notes for v{}:"), version) + "\n" + patches[version - 2];
         if (version < 1 + static_cast<int>(patches.size()))
           text += "\n\n";
       }

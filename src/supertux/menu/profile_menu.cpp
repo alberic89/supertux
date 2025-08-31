@@ -65,8 +65,8 @@ ProfileMenu::rebuild_menu()
     const std::string name = profile->get_name();
     const bool current = (id == g_config->profile);
 
-    std::string text = (name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), id) :
-                        (g_config->developer_mode ? fmt::format(fmt::runtime(_("{} (Profile {})")), name, id) : name));
+    std::string text = (name.empty() ? FORMAT_RUNTIME(_("Profile {}"), id) :
+                        (g_config->developer_mode ? FORMAT_RUNTIME(_("{} (Profile {})"), name, id) : name));
     if (current)
       text = "[" + text + "]";
 
@@ -144,9 +144,9 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -3)
   {
     const std::string name = m_current_profile->get_name();
-    const std::string message = fmt::format(
-      fmt::runtime(_("This will reset all game progress on the profile \"{}\".\nAre you sure?")),
-      name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
+    const std::string message = FORMAT_RUNTIME(
+      _("This will reset all game progress on the profile \"{}\".\nAre you sure?"),
+      name.empty() ? FORMAT_RUNTIME(_("Profile {}"), m_current_profile->get_id()) : name);
 
     Dialog::show_confirmation(message, []() {
       ProfileManager::current()->reset_profile(g_config->profile);
@@ -163,9 +163,9 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -5)
   {
     const std::string name = m_current_profile->get_name();
-    const std::string message = fmt::format(
-      fmt::runtime(_("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?")),
-      name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
+    const std::string message = FORMAT_RUNTIME(
+      _("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?"),
+      name.empty() ? FORMAT_RUNTIME(_("Profile {}"), m_current_profile->get_id()) : name);
 
     Dialog::show_confirmation(message, [this]() {
       ProfileManager::current()->delete_profile(g_config->profile);

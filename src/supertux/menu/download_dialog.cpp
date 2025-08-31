@@ -56,7 +56,7 @@ DownloadDialog::DownloadDialog(TransferStatusListPtr statuses, bool auto_close,
       {
         if (m_error_msg)
         {
-          Dialog::show_message(fmt::format(fmt::runtime(_("Error:\n{}")), m_status->get_error()));
+          Dialog::show_message(FORMAT_RUNTIME(_("Error:\n{}"), m_status->get_error()));
         }
         else
         {

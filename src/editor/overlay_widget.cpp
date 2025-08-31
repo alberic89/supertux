@@ -1585,7 +1585,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
       {
         if (autotileset)
         {
-          context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+          context.color().draw_text(Resources::normal_font, FORMAT_RUNTIME(_("Autotile erasing mode is on (\"{}\")"), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
         }
         else
         {
@@ -1594,7 +1594,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
       }
       else if (autotileset)
       {
-        context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        context.color().draw_text(Resources::normal_font, FORMAT_RUNTIME(_("Autotile mode is on (\"{}\")"), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
       }
       else
       {

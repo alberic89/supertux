@@ -69,7 +69,7 @@ EditorConvertersMenu::EditorConvertersMenu() :
 
              item.set_text("\"" + it->second.title + "\"");
              item.set_help(it->second.description + (it->second.author.empty() ? "" :
-                           "\n\n" + fmt::format(fmt::runtime(_("By: {}")), it->second.author)));
+                           "\n\n" + FORMAT_RUNTIME(_("By: {}"), it->second.author)));
            });
 
   add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))

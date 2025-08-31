@@ -33,7 +33,7 @@ ProfileNameMenu::ProfileNameMenu(Profile* profile) :
   m_profile(profile),
   m_profile_name()
 {
-  add_label(m_profile ? fmt::format(fmt::runtime(_("Rename \"{}\"")), m_profile->get_name()) : _("Add profile"));
+  add_label(m_profile ? FORMAT_RUNTIME(_("Rename \"{}\""), m_profile->get_name()) : _("Add profile"));
   add_hl();
 
   add_textfield(_("Name"), &m_profile_name)

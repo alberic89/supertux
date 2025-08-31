@@ -97,7 +97,7 @@ EditorLevelsetSelectMenu::initialize()
       int level_count = levelset->get_num_levels();
       std::ostringstream level_title;
       level_title << title << " ("
-                  << fmt::format(fmt::runtime(__("{} level", "{} levels", level_count)), level_count)
+                  << FORMAT_RUNTIME(__("{} level", "{} levels", level_count), level_count)
                   << ")";
       add_entry(i++, level_title.str());
       m_contrib_worlds.push_back(level_world);

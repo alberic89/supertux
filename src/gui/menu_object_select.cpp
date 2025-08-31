@@ -45,7 +45,7 @@ ObjectSelectMenu::refresh()
 
   add_label(_("List of objects"));
   add_hl();
-  add_entry(-2, fmt::format(fmt::runtime(_("Select object ({})")),
+  add_entry(-2, FORMAT_RUNTIME(_("Select object ({})"),
       m_selected.empty() ? "" : GameObjectFactory::instance().get_display_name(m_selected)));
   add_entry(-3, _("Add"));
   add_hl();

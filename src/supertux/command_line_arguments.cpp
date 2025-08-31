@@ -89,7 +89,7 @@ void
 CommandLineArguments::print_help(const char* arg0) const
 {
   std::cerr
-    << fmt::format(fmt::runtime(_("Usage: {} [OPTIONS] [LEVELFILE]")), arg0) << "\n" << "\n"
+    << FORMAT_RUNTIME(_("Usage: {} [OPTIONS] [LEVELFILE]"), arg0) << "\n" << "\n"
     << _("General Options:") << "\n"
     << _("  -h, --help                   Show this help message and quit") << "\n"
     << _("  -v, --version                Show SuperTux version and quit") << "\n"

@@ -109,7 +109,7 @@ AddonBrowseMenu::rebuild_menu()
   {
     last_browse_page = static_cast<int>(std::ceil(static_cast<double>(addons_count) / static_cast<double>(m_max_addons_on_page)));
 
-    add_inactive(fmt::format(fmt::runtime(_("Page {}/{}")), m_browse_page, last_browse_page));
+    add_inactive(FORMAT_RUNTIME(_("Page {}/{}"), m_browse_page, last_browse_page));
     add_hl();
   }
 
