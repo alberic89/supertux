@@ -102,7 +102,7 @@ std::string generate_menu_item_text(const Addon& addon)
 
   if (!addon.get_author().empty())
   {
-    text = fmt::format(fmt::runtime(_("{} \"{}\" by \"{}\"")),
+    text = fmt::format(_("{} \"{}\" by \"{}\""),
                        type, addon.get_title(), addon.get_author());
   }
   else
