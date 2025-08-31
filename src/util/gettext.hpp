@@ -54,7 +54,6 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
  *                              num);
  */
 
-#include <fmt/base.h>
 #include <fmt/format.h>
 
 #if defined(FMT_VERSION) && FMT_VERSION >= 80000
